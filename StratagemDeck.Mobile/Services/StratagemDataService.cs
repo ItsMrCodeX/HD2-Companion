@@ -10,41 +10,45 @@ public class StratagemDataService
     private Dictionary<string, List<Stratagem>> _byCategory = new();
     public List<string> Categories { get; private set; } = new();
 
+    private class StratagemEntry
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("keys")]
+        public string Keys { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("shortName")]
+        public string? ShortName { get; set; }
+    }
+
+    private static string CacheDir => Path.Combine(FileSystem.AppDataDirectory, "icon_cache");
+
     public async Task LoadAsync()
     {
         using var stream = await FileSystem.OpenAppPackageFileAsync("stratagems.json");
         using var reader = new StreamReader(stream);
         var json = await reader.ReadToEndAsync();
 
-        var raw = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
+        var raw = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, StratagemEntry>>>(json);
         if (raw == null) return;
 
         _byCategory.Clear();
         Categories.Clear();
+        Directory.CreateDirectory(CacheDir);
 
         foreach (var (category, strats) in raw)
         {
             Categories.Add(category);
             var list = new List<Stratagem>();
-            foreach (var (name, keysStr) in strats)
+            foreach (var (name, entry) in strats)
             {
                 var strat = new Stratagem
                 {
                     Name = name,
                     Category = category,
-                    Keys = keysStr.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList()
+                    ShortName = entry.ShortName,
+                    Keys = entry.Keys.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList()
                 };
 
-                var iconName = strat.GetNormalizedFileName();
-                try
-                {
-                    using var iconStream = await FileSystem.OpenAppPackageFileAsync(iconName);
-                    strat.IconSource = DecodeSvgToImageSource(iconStream);
-                }
-                catch
-                {
-                    strat.IconSource = null;
-                }
+                strat.IconSource = await LoadIconAsync(strat);
 
                 list.Add(strat);
             }
@@ -52,12 +56,38 @@ public class StratagemDataService
         }
     }
 
-    private static ImageSource DecodeSvgToImageSource(Stream svgStream)
+    private async Task<ImageSource?> LoadIconAsync(Stratagem strat)
+    {
+        var iconName = strat.GetNormalizedFileName();
+        var cacheKey = Path.GetFileNameWithoutExtension(iconName).Replace("/", "_") + ".png";
+        var cachePath = Path.Combine(CacheDir, cacheKey);
+
+        if (!File.Exists(cachePath))
+        {
+            try
+            {
+                using var iconStream = await FileSystem.OpenAppPackageFileAsync(iconName);
+                var pngBytes = DecodeSvgToPng(iconStream);
+                if (pngBytes != null)
+                    await File.WriteAllBytesAsync(cachePath, pngBytes);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        return File.Exists(cachePath)
+            ? ImageSource.FromFile(cachePath)
+            : null;
+    }
+
+    private static byte[]? DecodeSvgToPng(Stream svgStream)
     {
         using var svg = new SKSvg();
         svg.Load(svgStream);
         if (svg.Picture == null)
-            throw new InvalidOperationException("Failed to load SVG");
+            return null;
 
         var size = svg.Picture.CullRect;
         float maxDim = Math.Max(size.Width, size.Height);
@@ -72,9 +102,7 @@ public class StratagemDataService
         canvas.DrawPicture(svg.Picture);
 
         using var image = SKImage.FromBitmap(bitmap);
-        using var pngData = image.Encode(SKEncodedImageFormat.Png, 100);
-        var pngBytes = pngData.ToArray();
-        return ImageSource.FromStream(() => new MemoryStream(pngBytes));
+        return image.Encode(SKEncodedImageFormat.Png, 100).ToArray();
     }
 
     public List<Stratagem> GetByCategory(string category)
@@ -90,7 +118,8 @@ public class StratagemDataService
         var lower = query.ToLowerInvariant();
         return _byCategory.Values
             .SelectMany(x => x)
-            .Where(s => s.Name.Contains(lower, StringComparison.OrdinalIgnoreCase))
+            .Where(s => s.Name.Contains(lower, StringComparison.OrdinalIgnoreCase)
+                     || s.DisplayName.Contains(lower, StringComparison.OrdinalIgnoreCase))
             .ToList();
     }
 

@@ -19,7 +19,7 @@ A companion app for Helldivers 2 that lets you launch stratagems from your mobil
 | QR Generation | QRCoder |
 | QR Scanning | ZXing.Net.Maui.Controls |
 | Data | JSON (embedded `stratagems.json`) |
-| Icon Rendering | SkiaSharp + Svg.Skia (SVG to PNG at runtime) |
+| Icon Rendering | SkiaSharp + Svg.Skia (SVG to PNG with disk cache) |
 
 ## Prerequisites
 
@@ -83,7 +83,7 @@ dotnet run --project StratagemDeck.Mobile -f net10.0-windows10.0.19041.0
 
 ### 6. Play
 
-- **Setup tab**: Assign 4 stratagems to your loadout + mission stratagems
+- **Setup tab**: Assign 4 stratagems to your loadout + mission stratagems. Use the **search bar** to quickly find stratagems by name or short name.
 - **Game tab**: Tap any stratagem to send it. Tap Mission stratagems to send those too.
 - **Save** your loadout, **Clear** to reset.
 
@@ -107,9 +107,9 @@ HellDivers2-Stratagem-Deck/
 │   ├── ViewModels/
 │   ├── Services/
 │   ├── Models/
-│   └── Resources/Raw/
-│       ├── stratagems.json       # 106 stratagems
-│       └── icons/                # SVG icons
+│       └── Resources/Raw/
+│           ├── stratagems.json       # 124 stratagems with keys + shortName
+│           └── icons/                # SVG icons
 ├── README.md
 └── .gitignore
 ```

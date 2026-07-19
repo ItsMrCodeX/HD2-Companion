@@ -14,11 +14,11 @@ public class Stratagem
     [JsonPropertyName("keys")]
     public List<string> Keys { get; set; } = new();
 
-    public string IconName => Name
-        .Replace(" ", "_")
-        .Replace("/", "_")
-        .Replace("\"", "")
-        .Replace("-", "-") + "_Icon";
+    [JsonPropertyName("shortName")]
+    public string? ShortName { get; set; }
+
+    [JsonIgnore]
+    public string DisplayName => ShortName ?? Name;
 
     [JsonIgnore]
     public ImageSource? IconSource { get; set; }
@@ -85,7 +85,7 @@ public class LoadoutSlot : System.ComponentModel.INotifyPropertyChanged
     public ImageSource? SlotIcon => _selectedStratagem?.IconSource;
 
     [JsonIgnore]
-    public string SlotName => _selectedStratagem?.Name ?? string.Empty;
+    public string SlotName => _selectedStratagem?.DisplayName ?? string.Empty;
 
     public ObservableCollection<Stratagem> MissionStrats
     {

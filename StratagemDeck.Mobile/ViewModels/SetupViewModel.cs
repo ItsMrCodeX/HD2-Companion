@@ -13,8 +13,11 @@ public class SetupViewModel : INotifyPropertyChanged
 
     private LoadoutSlot? _selectedSlot;
     private string _status = string.Empty;
+    private string _searchQuery = string.Empty;
+    private string? _selectedCategory;
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    public event Action? SearchCompleted;
 
     public ObservableCollection<Stratagem> AvailableStrats { get; } = new();
 
@@ -24,6 +27,21 @@ public class SetupViewModel : INotifyPropertyChanged
     public ICommand SaveLoadoutCommand { get; }
     public ICommand ClearLoadoutCommand { get; }
     public ICommand RemoveMissionStratagemCommand { get; }
+    public ICommand SearchCommand { get; }
+
+    public string SearchQuery
+    {
+        get => _searchQuery;
+        set
+        {
+            if (_searchQuery != value)
+            {
+                _searchQuery = value;
+                OnPropertyChanged();
+                RefreshFilter();
+            }
+        }
+    }
 
     public LoadoutSlot? SelectedSlot
     {
@@ -87,6 +105,7 @@ public class SetupViewModel : INotifyPropertyChanged
         SaveLoadoutCommand = new Command(OnSaveLoadout);
         ClearLoadoutCommand = new Command(OnClearLoadout);
         RemoveMissionStratagemCommand = new Command<Stratagem>(s => RemoveFromMission(s));
+        SearchCommand = new Command(OnSearch);
     }
 
     public async Task InitializeAsync()
@@ -106,16 +125,36 @@ public class SetupViewModel : INotifyPropertyChanged
                 : "Mission slot selected - tap stratagems to add";
         else
             Status = slot?.SelectedStratagem != null
-                ? $"Slot {idx + 1}: {slot.SelectedStratagem.Name}"
+                ? $"Slot {idx + 1}: {slot.SelectedStratagem.DisplayName}"
                 : $"Slot {idx + 1} selected - tap a stratagem";
     }
 
     private void OnSelectCategory(string? category)
     {
         if (string.IsNullOrEmpty(category)) return;
+        _selectedCategory = category;
+        RefreshFilter();
+    }
 
+    private void OnSearch()
+    {
+        RefreshFilter();
+        SearchCompleted?.Invoke();
+    }
+
+    private void RefreshFilter()
+    {
         AvailableStrats.Clear();
-        foreach (var s in _session.GetByCategory(category))
+
+        IEnumerable<Stratagem> source;
+        if (!string.IsNullOrWhiteSpace(SearchQuery))
+            source = _session.Search(SearchQuery);
+        else if (_selectedCategory != null)
+            source = _session.GetByCategory(_selectedCategory);
+        else
+            return;
+
+        foreach (var s in source)
             AvailableStrats.Add(s);
     }
 
@@ -128,12 +167,9 @@ public class SetupViewModel : INotifyPropertyChanged
         if (slot == null) return;
 
         slot.SelectedStratagem = stratagem;
-        var idx = Slots.IndexOf(slot);
-        if (idx >= 0) Slots[idx] = slot;
-
         NotifySlotsChanged();
         _session.SaveLoadout();
-        Status = $"Assigned {stratagem.Name} to Slot {currentIdx + 1}";
+        Status = $"Assigned {stratagem.DisplayName} to Slot {currentIdx + 1}";
 
         // Auto-advance to next empty slot
         var next = Slots
@@ -156,7 +192,7 @@ public class SetupViewModel : INotifyPropertyChanged
             mission.MissionStrats.Add(stratagem);
             NotifySlotsChanged();
             _session.SaveLoadout();
-            Status = $"Added {stratagem.Name} to mission";
+            Status = $"Added {stratagem.DisplayName} to mission";
         }
     }
 
@@ -172,7 +208,7 @@ public class SetupViewModel : INotifyPropertyChanged
             mission.MissionStrats.Remove(toRemove);
             NotifySlotsChanged();
             _session.SaveLoadout();
-            Status = $"Removed {stratagem.Name} from mission";
+            Status = $"Removed {stratagem.DisplayName} from mission";
         }
     }
 
@@ -196,7 +232,6 @@ public class SetupViewModel : INotifyPropertyChanged
             Slots[i] = fresh;
         }
 
-        Preferences.Default.Remove("saved_loadout");
         _session.SaveLoadout();
         NotifySlotsChanged();
         SelectedSlot = null;

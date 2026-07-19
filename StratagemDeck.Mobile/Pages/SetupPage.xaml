@@ -25,10 +25,12 @@
             <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                 <Button Grid.Column="0" Text="Save Loadout" FontSize="12"
                         BackgroundColor="{StaticResource Surface}" TextColor="{StaticResource OnCanvas}" CornerRadius="999"
-                        HeightRequest="36" Command="{Binding SaveLoadoutCommand}" />
+                        HeightRequest="36" Command="{Binding SaveLoadoutCommand}"
+                        AutomationProperties.Name="Save current loadout" />
                 <Button Grid.Column="1" Text="Clear Loadout" FontSize="12"
                         BackgroundColor="{StaticResource Error}" TextColor="{StaticResource OnCanvas}" CornerRadius="999"
-                        HeightRequest="36" Command="{Binding ClearLoadoutCommand}" />
+                        HeightRequest="36" Command="{Binding ClearLoadoutCommand}"
+                        AutomationProperties.Name="Clear all loadout selections" />
             </Grid>
 
             <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6" MinimumHeightRequest="140">
@@ -36,7 +38,8 @@
                 <Border Grid.Column="0" BackgroundColor="{StaticResource Surface}"
                         Stroke="{Binding SelectedSlotIndex, Converter={StaticResource SlotSelected}, ConverterParameter=0}"
                         StrokeThickness="2" StrokeShape="RoundRectangle 10" Padding="4"
-                        MinimumWidthRequest="80" MinimumHeightRequest="130">
+                        MinimumWidthRequest="80" MinimumHeightRequest="130"
+                        AutomationProperties.Name="Slot 1">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectSlotCommand}" CommandParameter="0" />
                     </Border.GestureRecognizers>
@@ -51,7 +54,8 @@
                 <Border Grid.Column="1" BackgroundColor="{StaticResource Surface}"
                         Stroke="{Binding SelectedSlotIndex, Converter={StaticResource SlotSelected}, ConverterParameter=1}"
                         StrokeThickness="2" StrokeShape="RoundRectangle 10" Padding="4"
-                        MinimumWidthRequest="80" MinimumHeightRequest="130">
+                        MinimumWidthRequest="80" MinimumHeightRequest="130"
+                        AutomationProperties.Name="Slot 2">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectSlotCommand}" CommandParameter="1" />
                     </Border.GestureRecognizers>
@@ -66,7 +70,8 @@
                 <Border Grid.Column="2" BackgroundColor="{StaticResource Surface}"
                         Stroke="{Binding SelectedSlotIndex, Converter={StaticResource SlotSelected}, ConverterParameter=2}"
                         StrokeThickness="2" StrokeShape="RoundRectangle 10" Padding="4"
-                        MinimumWidthRequest="80" MinimumHeightRequest="130">
+                        MinimumWidthRequest="80" MinimumHeightRequest="130"
+                        AutomationProperties.Name="Slot 3">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectSlotCommand}" CommandParameter="2" />
                     </Border.GestureRecognizers>
@@ -81,7 +86,8 @@
                 <Border Grid.Column="3" BackgroundColor="{StaticResource Surface}"
                         Stroke="{Binding SelectedSlotIndex, Converter={StaticResource SlotSelected}, ConverterParameter=3}"
                         StrokeThickness="2" StrokeShape="RoundRectangle 10" Padding="4"
-                        MinimumWidthRequest="80" MinimumHeightRequest="130">
+                        MinimumWidthRequest="80" MinimumHeightRequest="130"
+                        AutomationProperties.Name="Slot 4">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectSlotCommand}" CommandParameter="3" />
                     </Border.GestureRecognizers>
@@ -114,10 +120,11 @@
                                     <HorizontalStackLayout Spacing="4">
                                         <Image Source="{Binding IconSource}" WidthRequest="20" HeightRequest="20"
                                                Aspect="AspectFit" VerticalOptions="Center" />
-                                        <Label Text="{Binding Name}" FontSize="10" TextColor="{StaticResource OnCanvasMute}"
+                                        <Label Text="{Binding DisplayName}" FontSize="10" TextColor="{StaticResource OnCanvasMute}"
                                                VerticalOptions="Center" LineBreakMode="TailTruncation" MaximumWidthRequest="110" />
                                         <Label Text="✕" FontSize="12" TextColor="{StaticResource Error}"
-                                               VerticalOptions="Center" Padding="4,0">
+                                               VerticalOptions="Center" Padding="4,0"
+                                               AutomationProperties.Name="Remove stratagem">
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SetupViewModel}}, Path=RemoveMissionStratagemCommand}"
@@ -132,6 +139,15 @@
                 </Grid>
             </Border>
 
+            <!-- Search -->
+            <SearchBar x:Name="StrSearchBar" Placeholder="Search for a stratagem..." Text="{Binding SearchQuery}"
+                       SearchCommand="{Binding SearchCommand}"
+                       BackgroundColor="{StaticResource Surface}"
+                       TextColor="{StaticResource OnCanvas}"
+                       PlaceholderColor="{StaticResource Mute}"
+                       CancelButtonColor="{StaticResource AccentActive}"
+                        FontSize="12" HeightRequest="40" />
+
             <!-- Category Chips -->
             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never" HeightRequest="34">
                 <HorizontalStackLayout Spacing="5" Padding="2,0" BindableLayout.ItemsSource="{Binding Categories}">
@@ -141,14 +157,15 @@
                                     BackgroundColor="{Binding ., Converter={StaticResource CategoryToColor}}"
                                     TextColor="{StaticResource OnCanvas}" HeightRequest="26"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SetupViewModel}}, Path=SelectCategoryCommand}"
-                                    CommandParameter="{Binding .}" />
+                                    CommandParameter="{Binding .}"
+                                    AutomationProperties.Name="{Binding ., StringFormat='Category: {0}'}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </HorizontalStackLayout>
             </ScrollView>
 
             <!-- Stratagem Grid -->
-            <CollectionView ItemsSource="{Binding AvailableStrats}" SelectionMode="None" HeightRequest="420">
+            <CollectionView x:Name="StratsGrid" ItemsSource="{Binding AvailableStrats}" SelectionMode="None" HeightRequest="420">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="4" VerticalItemSpacing="4" />
                 </CollectionView.ItemsLayout>
@@ -164,7 +181,7 @@
                             <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="1">
                                 <Image Source="{Binding IconSource}" WidthRequest="28" HeightRequest="28"
                                        Aspect="AspectFit" HorizontalOptions="Center" />
-                                <Label Text="{Binding Name}" FontSize="7" TextColor="{StaticResource OnCanvasMute}"
+                                <Label Text="{Binding DisplayName}" FontSize="9" TextColor="{StaticResource OnCanvasMute}"
                                        HorizontalOptions="Center" HorizontalTextAlignment="Center"
                                        LineBreakMode="TailTruncation" MaxLines="2" />
                             </StackLayout>

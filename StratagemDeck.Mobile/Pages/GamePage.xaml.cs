@@ -15,7 +15,11 @@ public partial class GamePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _vm.InitializeAsync();
-        _vm.UpdateConnectionStatus();
+        try
+        {
+            await _vm.InitializeAsync();
+            _vm.UpdateConnectionStatus();
+        }
+        catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
     }
 }

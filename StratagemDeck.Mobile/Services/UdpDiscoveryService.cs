@@ -42,7 +42,6 @@ public class UdpDiscoveryService : IDisposable
     {
         try
         {
-            OnLog?.Invoke($"Pinging {ip}...");
             var ping = new { type = "ping", pin };
             var json = JsonSerializer.Serialize(ping);
             var data = Encoding.UTF8.GetBytes(json);
@@ -55,12 +54,12 @@ public class UdpDiscoveryService : IDisposable
             var response = Encoding.UTF8.GetString(result.Buffer);
 
             var ok = response.Contains("\"type\":\"pong\"");
-            OnLog?.Invoke(ok ? $"Pong received from {ip}" : $"Invalid response from {ip}");
+            OnLog?.Invoke(ok ? "Connected" : "Invalid response");
             return ok;
         }
         catch (Exception ex)
         {
-            OnLog?.Invoke($"Ping failed: {ex.Message}");
+            OnLog?.Invoke("Ping failed");
             return false;
         }
     }
@@ -74,14 +73,12 @@ public class UdpDiscoveryService : IDisposable
         var json = JsonSerializer.Serialize(discoverMsg);
         var data = Encoding.UTF8.GetBytes(json);
 
-        OnLog?.Invoke("Discovery scan started (continuous)");
-
         while (!ct.IsCancellationRequested)
         {
             var subnets = GetLocalSubnets();
             if (subnets.Count == 0)
             {
-                OnLog?.Invoke("No subnets found, retrying in 3s...");
+                OnLog?.Invoke("No network");
                 try { await Task.Delay(3000, ct); } catch (OperationCanceledException) { break; }
                 continue;
             }
@@ -118,7 +115,7 @@ public class UdpDiscoveryService : IDisposable
                 await Task.WhenAll(tasks);
             }
 
-            OnLog?.Invoke($"Sent {_sentCount} discovers, listening for responses...");
+            OnLog?.Invoke("Scanning...");
 
             // Listen for responses with 2s timeout per receive
             var seenIps = new HashSet<string>();
@@ -143,7 +140,7 @@ public class UdpDiscoveryService : IDisposable
                     if (!seenIps.Add(ip)) continue;
 
                     Interlocked.Increment(ref _responseCount);
-                    OnLog?.Invoke($"Discovered server {msg.pc} at {ip}");
+                    OnLog?.Invoke($"Found {msg.pc}");
                     OnServerDiscovered?.Invoke(new DiscoveryInfo
                     {
                         PcName = msg.pc,
@@ -156,14 +153,14 @@ public class UdpDiscoveryService : IDisposable
                 catch { }
             }
 
-            OnLog?.Invoke($"Scan cycle complete ({_responseCount} servers found)");
+            OnLog?.Invoke(_responseCount > 0 ? $"{_responseCount} server(s) found" : "No servers found");
 
             // Wait before next scan
             try { await Task.Delay(5000, ct); }
             catch (OperationCanceledException) { break; }
         }
 
-        OnLog?.Invoke("Discovery scan stopped");
+        OnLog?.Invoke("Scan stopped");
     }
 
     private static List<string> GetLocalSubnets()

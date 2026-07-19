@@ -95,7 +95,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     {
         IsScanning = true;
         ShowManualEntry = false;
-        Status = "Searching for servers...";
+        Status = "Scanning...";
         DiscoveredServers.Clear();
         _discovery.StartScanning();
     }
@@ -104,12 +104,12 @@ public class SettingsViewModel : INotifyPropertyChanged
     {
         _discovery.StopScanning();
         IsScanning = false;
-        Status = $"Connecting to {server.PcName}...";
+        Status = "Connecting...";
 
         var ok = await _session.ConnectAsync(server.IpAddress, server.Pin);
         Status = ok
-            ? $"Connected to {server.PcName}"
-            : "Connection failed";
+            ? "Connected"
+            : "Failed";
         OnPropertyChanged(nameof(IsConnected));
         OnPropertyChanged(nameof(ConnectedServer));
         OnPropertyChanged(nameof(CurrentPin));
@@ -125,9 +125,9 @@ public class SettingsViewModel : INotifyPropertyChanged
         if (Shell.Current.CurrentPage is Pages.QrScanPage)
             await Shell.Current.GoToAsync("..");
 
-        Status = $"Connecting to {ip}...";
+        Status = "Connecting...";
         var ok = await _session.ConnectAsync(ip, pin);
-        Status = ok ? $"Connected to {ip}" : "Connection failed";
+        Status = ok ? "Connected" : "Failed";
         ManualIp = ip;
         PinEntry = pin;
         OnPropertyChanged(nameof(IsConnected));
@@ -145,8 +145,8 @@ public class SettingsViewModel : INotifyPropertyChanged
         Status = "Connecting...";
         var ok = await _session.ConnectAsync(ManualIp, PinEntry);
         Status = ok
-            ? $"Connected to {ManualIp}"
-            : "Connection failed or invalid PIN";
+            ? "Connected"
+            : "Failed - check IP/PIN";
         OnPropertyChanged(nameof(IsConnected));
         OnPropertyChanged(nameof(ConnectedServer));
         OnPropertyChanged(nameof(CurrentPin));

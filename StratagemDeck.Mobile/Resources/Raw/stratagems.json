@@ -1,124 +1,448 @@
 {
   "Supply: Support Weapons": {
-    "MG-43 Machine Gun": "down left down up right",
-    "EAT-17 Expendable Anti-Tank": "down down left up right",
-    "M-105 Stalwart": "down left down up up left",
-    "LAS-98 Laser Cannon": "down left down up left",
-    "APW-1 Anti-Materiel Rifle": "down left right up down",
-    "GL-21 Grenade Launcher": "down left up left down",
-    "GR-8 Recoilless Rifle": "down left right right left",
-    "FLAM-40 Flamethrower": "down left up down up",
-    "MG-206 Heavy Machine Gun": "down left up down down",
-    "AC-8 Autocannon": "down left down up up right",
-    "ARC-3 Arc Thrower": "down right down up left left",
-    "LAS-99 Quasar Cannon": "down down up left right",
-    "RL-77 Airburst Rocket Launcher": "down up up left right",
-    "MLS-4X Commando": "down left up down right",
-    "FAF-14 Spear": "down down up down down",
-    "RS-422 Railgun": "down right down up left right",
-    "StA-X3 W.A.S.P. Launcher": "down down up down right",
-    "CQC-20 Breaching Hammer": "down left right left up",
-    "PLAS-45 Epoch": "down left up left right",
-    "MGX-42 Bullet Storm": "down left down right up left",
-    "S-11 Speargun": "down right down left up right",
-    "CQC-9 Defoliation Tool": "down left right right down",
-    "TX-41 Sterilizer": "down left up down left",
-    "EAT-700 Expendable Napalm": "down down left up left",
-    "EAT-411 Leveller": "down down left up down",
-    "GL-52 De-Escalator": "down right up left right",
-    "GL-28 Belt-Fed Grenade Launcher": "down left up left up up",
-    "B/MD C4 Pack": "down right up up right up",
-    "MS-11 Solo Silo": "down up right down down",
-    "B/FLAM-80 Cremator": "down down right down up up",
-    "M-1000 Maxigun": "down left right down up up",
-    "CQC-1 One True Flag": "down left right right up"
+    "MG-43 Machine Gun": {
+      "keys": "down left down up right",
+      "shortName": "Machine Gun"
+    },
+    "EAT-17 Expendable Anti-Tank": {
+      "keys": "down down left up right",
+      "shortName": "Expendable Anti-Tank"
+    },
+    "M-105 Stalwart": {
+      "keys": "down left down up up left",
+      "shortName": "Stalwart"
+    },
+    "LAS-98 Laser Cannon": {
+      "keys": "down left down up left",
+      "shortName": "Laser Cannon"
+    },
+    "APW-1 Anti-Materiel Rifle": {
+      "keys": "down left right up down",
+      "shortName": "Anti-Materiel Rifle"
+    },
+    "GL-21 Grenade Launcher": {
+      "keys": "down left up left down",
+      "shortName": "Grenade Launcher"
+    },
+    "GR-8 Recoilless Rifle": {
+      "keys": "down left right right left",
+      "shortName": "Recoilless Rifle"
+    },
+    "FLAM-40 Flamethrower": {
+      "keys": "down left up down up",
+      "shortName": "Flamethrower"
+    },
+    "MG-206 Heavy Machine Gun": {
+      "keys": "down left up down down",
+      "shortName": "Heavy Machine Gun"
+    },
+    "AC-8 Autocannon": {
+      "keys": "down left down up up right",
+      "shortName": "Autocannon"
+    },
+    "ARC-3 Arc Thrower": {
+      "keys": "down right down up left left",
+      "shortName": "Arc Thrower"
+    },
+    "LAS-99 Quasar Cannon": {
+      "keys": "down down up left right",
+      "shortName": "Quasar Cannon"
+    },
+    "RL-77 Airburst Rocket Launcher": {
+      "keys": "down up up left right",
+      "shortName": "Airburst Rocket Launcher"
+    },
+    "MLS-4X Commando": {
+      "keys": "down left up down right",
+      "shortName": "Commando"
+    },
+    "FAF-14 Spear": {
+      "keys": "down down up down down",
+      "shortName": "Spear"
+    },
+    "RS-422 Railgun": {
+      "keys": "down right down up left right",
+      "shortName": "Railgun"
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+      "keys": "down down up down right",
+      "shortName": "W.A.S.P. Launcher"
+    },
+    "CQC-20 Breaching Hammer": {
+      "keys": "down left right left up",
+      "shortName": "Breaching Hammer"
+    },
+    "PLAS-45 Epoch": {
+      "keys": "down left up left right",
+      "shortName": "Epoch"
+    },
+    "MGX-42 Bullet Storm": {
+      "keys": "down left down right up left",
+      "shortName": "Bullet Storm"
+    },
+    "S-11 Speargun": {
+      "keys": "down right down left up right",
+      "shortName": "Speargun"
+    },
+    "CQC-9 Defoliation Tool": {
+      "keys": "down left right right down",
+      "shortName": "Defoliation Tool"
+    },
+    "TX-41 Sterilizer": {
+      "keys": "down left up down left",
+      "shortName": "Sterilizer"
+    },
+    "EAT-700 Expendable Napalm": {
+      "keys": "down down left up left",
+      "shortName": "Expendable Napalm"
+    },
+    "EAT-411 Leveller": {
+      "keys": "down down left up down",
+      "shortName": "Leveller"
+    },
+    "GL-52 De-Escalator": {
+      "keys": "down right up left right",
+      "shortName": "De-Escalator"
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+      "keys": "down left up left up up",
+      "shortName": "Belt-Fed Grenade Launcher"
+    },
+    "B/MD C4 Pack": {
+      "keys": "down right up up right up",
+      "shortName": "C4 Pack"
+    },
+    "MS-11 Solo Silo": {
+      "keys": "down up right down down",
+      "shortName": "Solo Silo"
+    },
+    "B/FLAM-80 Cremator": {
+      "keys": "down down right down up up",
+      "shortName": "Cremator"
+    },
+    "M-1000 Maxigun": {
+      "keys": "down left right down up up",
+      "shortName": "Maxigun"
+    },
+    "CQC-1 One True Flag": {
+      "keys": "down left right right up",
+      "shortName": "One True Flag"
+    }
   },
   "Offensive: Orbital": {
-    "Orbital Precision Strike": "right right up",
-    "Orbital Gatling Barrage": "right down left up up",
-    "Orbital Gas Strike": "right right down right",
-    "Orbital 120mm HE Barrage": "right right down left right down",
-    "Orbital Airburst Strike": "right right right",
-    "Orbital Smoke Strike": "right right down up",
-    "Orbital EMS Strike": "right right left down",
-    "Orbital 380mm HE Barrage": "right down up up left down down",
-    "Orbital Walking Barrage": "right down right down right down",
-    "Orbital Laser": "right down up right down",
-    "Orbital Napalm Barrage": "right right down left right up",
-    "Orbital Railcannon Strike": "right up down down right"
+    "Orbital Precision Strike": {
+      "keys": "right right up",
+      "shortName": "Orbital Precision Strike"
+    },
+    "Orbital Gatling Barrage": {
+      "keys": "right down left up up",
+      "shortName": "Orbital Gatling Barrage"
+    },
+    "Orbital Gas Strike": {
+      "keys": "right right down right",
+      "shortName": "Orbital Gas Strike"
+    },
+    "Orbital 120mm HE Barrage": {
+      "keys": "right right down left right down",
+      "shortName": "Orbital 120mm HE Barrage"
+    },
+    "Orbital Airburst Strike": {
+      "keys": "right right right",
+      "shortName": "Orbital Airburst Strike"
+    },
+    "Orbital Smoke Strike": {
+      "keys": "right right down up",
+      "shortName": "Orbital Smoke Strike"
+    },
+    "Orbital EMS Strike": {
+      "keys": "right right left down",
+      "shortName": "Orbital EMS Strike"
+    },
+    "Orbital 380mm HE Barrage": {
+      "keys": "right down up up left down down",
+      "shortName": "Orbital 380mm HE Barrage"
+    },
+    "Orbital Walking Barrage": {
+      "keys": "right down right down right down",
+      "shortName": "Orbital Walking Barrage"
+    },
+    "Orbital Laser": {
+      "keys": "right down up right down",
+      "shortName": "Orbital Laser"
+    },
+    "Orbital Napalm Barrage": {
+      "keys": "right right down left right up",
+      "shortName": "Orbital Napalm Barrage"
+    },
+    "Orbital Railcannon Strike": {
+      "keys": "right up down down right",
+      "shortName": "Orbital Railcannon Strike"
+    }
   },
   "Offensive: Eagle": {
-    "Eagle Strafing Run": "up right right",
-    "Eagle Airstrike": "up right down right",
-    "Eagle Cluster Bomb": "up right down down right",
-    "Eagle Smoke Strike": "up right up down",
-    "Eagle Napalm Airstrike": "up right down up",
-    "Eagle 110mm Rocket Pods": "up right up left",
-    "Eagle 500kg Bomb": "up right down down down"
+    "Eagle Strafing Run": {
+      "keys": "up right right",
+      "shortName": "Eagle Strafing Run"
+    },
+    "Eagle Airstrike": {
+      "keys": "up right down right",
+      "shortName": "Eagle Airstrike"
+    },
+    "Eagle Cluster Bomb": {
+      "keys": "up right down down right",
+      "shortName": "Eagle Cluster Bomb"
+    },
+    "Eagle Smoke Strike": {
+      "keys": "up right up down",
+      "shortName": "Eagle Smoke Strike"
+    },
+    "Eagle Napalm Airstrike": {
+      "keys": "up right down up",
+      "shortName": "Eagle Napalm Airstrike"
+    },
+    "Eagle 110mm Rocket Pods": {
+      "keys": "up right up left",
+      "shortName": "Eagle 110mm Rocket Pods"
+    },
+    "Eagle 500kg Bomb": {
+      "keys": "up right down down down",
+      "shortName": "Eagle 500kg Bomb"
+    }
   },
   "Defensive": {
-    "MD-6 Anti-Personnel Minefield": "down left up right",
-    "MD-I4 Incendiary Mines": "down left left down",
-    "MD-17 Anti-Tank Mines": "down left up up",
-    "FX-12 Shield Generator Relay": "down down left right left right",
-    "E/MG-101 HMG Emplacement": "down up left right right left",
-    "E/GL-21 Grenadier Battlement": "down right down left right",
-    "MD-8 Gas Mines": "down left left right",
-    "E/AT-12 Anti-Tank Emplacement": "down up left right right right",
-    "A/MG-43 Machine Gun Sentry": "down up right right up",
-    "A/G-16 Gatling Sentry": "down up right left",
-    "A/AC-8 Autocannon Sentry": "down up right up left up",
-    "A/M-12 Mortar Sentry": "down up right right down",
-    "A/MLS-4X Rocket Sentry": "down up right right left",
-    "A/ARC-3 Tesla Tower": "down up right up left right",
-    "A/M-23 EMS Mortar Sentry": "down up right down right",
-    "A/LAS-98 Laser Sentry": "down up right down up right",
-    "A/FLAM-40 Flame Sentry": "down up right down up up",
-    "A/GM-17 Gas Mortar Sentry": "down up right down left"
+    "MD-6 Anti-Personnel Minefield": {
+      "keys": "down left up right",
+      "shortName": "Anti-Personnel Minefield"
+    },
+    "MD-I4 Incendiary Mines": {
+      "keys": "down left left down",
+      "shortName": "Incendiary Mines"
+    },
+    "MD-17 Anti-Tank Mines": {
+      "keys": "down left up up",
+      "shortName": "Anti-Tank Mines"
+    },
+    "FX-12 Shield Generator Relay": {
+      "keys": "down down left right left right",
+      "shortName": "Shield Generator Relay"
+    },
+    "E/MG-101 HMG Emplacement": {
+      "keys": "down up left right right left",
+      "shortName": "HMG Emplacement"
+    },
+    "E/GL-21 Grenadier Battlement": {
+      "keys": "down right down left right",
+      "shortName": "Grenadier Battlement"
+    },
+    "MD-8 Gas Mines": {
+      "keys": "down left left right",
+      "shortName": "Gas Mines"
+    },
+    "E/AT-12 Anti-Tank Emplacement": {
+      "keys": "down up left right right right",
+      "shortName": "Anti-Tank Emplacement"
+    },
+    "A/MG-43 Machine Gun Sentry": {
+      "keys": "down up right right up",
+      "shortName": "Machine Gun Sentry"
+    },
+    "A/G-16 Gatling Sentry": {
+      "keys": "down up right left",
+      "shortName": "Gatling Sentry"
+    },
+    "A/AC-8 Autocannon Sentry": {
+      "keys": "down up right up left up",
+      "shortName": "Autocannon Sentry"
+    },
+    "A/M-12 Mortar Sentry": {
+      "keys": "down up right right down",
+      "shortName": "Mortar Sentry"
+    },
+    "A/MLS-4X Rocket Sentry": {
+      "keys": "down up right right left",
+      "shortName": "Rocket Sentry"
+    },
+    "A/ARC-3 Tesla Tower": {
+      "keys": "down up right up left right",
+      "shortName": "Tesla Tower"
+    },
+    "A/M-23 EMS Mortar Sentry": {
+      "keys": "down up right down right",
+      "shortName": "EMS Mortar Sentry"
+    },
+    "A/LAS-98 Laser Sentry": {
+      "keys": "down up right down up right",
+      "shortName": "Laser Sentry"
+    },
+    "A/FLAM-40 Flame Sentry": {
+      "keys": "down up right down up up",
+      "shortName": "Flame Sentry"
+    },
+    "A/GM-17 Gas Mortar Sentry": {
+      "keys": "down up right down left",
+      "shortName": "Gas Mortar Sentry"
+    }
   },
   "Supply: Backpacks": {
-    "B-1 Supply Pack": "down left down up up down",
-    "LIFT-850 Jump Pack": "down up up down up",
-    "SH-20 Ballistic Shield Backpack": "down left down down up left",
-    "AX/AR-23 Guard Dog": "down up left up right down",
-    "AX/LAS-5 Rover": "down up left up right right",
-    "SH-32 Shield Generator Pack": "down up left right left right",
-    "SH-51 Directional Shield": "down up left right up up",
-    "AX/FLAM-75 Hot Dog": "down up left up left left",
-    "B-100 Portable Hellbomb": "down right up up up",
-    "AX/ARC-3 K-9": "down up left up right left",
-    "LIFT-860 Hover Pack": "down up up down left right",
-    "AX/TX-13 Dog Breath": "down up left up right up",
-    "LIFT-182 Warp Pack": "down left right down left right"
+    "B-1 Supply Pack": {
+      "keys": "down left down up up down",
+      "shortName": "Supply Pack"
+    },
+    "LIFT-850 Jump Pack": {
+      "keys": "down up up down up",
+      "shortName": "Jump Pack"
+    },
+    "SH-20 Ballistic Shield Backpack": {
+      "keys": "down left down down up left",
+      "shortName": "Ballistic Shield Backpack"
+    },
+    "AX/AR-23 Guard Dog": {
+      "keys": "down up left up right down",
+      "shortName": "Guard Dog"
+    },
+    "AX/LAS-5 Rover": {
+      "keys": "down up left up right right",
+      "shortName": "Rover"
+    },
+    "SH-32 Shield Generator Pack": {
+      "keys": "down up left right left right",
+      "shortName": "Shield Generator Pack"
+    },
+    "SH-51 Directional Shield": {
+      "keys": "down up left right up up",
+      "shortName": "Directional Shield"
+    },
+    "AX/FLAM-75 Hot Dog": {
+      "keys": "down up left up left left",
+      "shortName": "Hot Dog"
+    },
+    "B-100 Portable Hellbomb": {
+      "keys": "down right up up up",
+      "shortName": "Portable Hellbomb"
+    },
+    "AX/ARC-3 K-9": {
+      "keys": "down up left up right left",
+      "shortName": "K-9"
+    },
+    "LIFT-860 Hover Pack": {
+      "keys": "down up up down left right",
+      "shortName": "Hover Pack"
+    },
+    "AX/TX-13 Dog Breath": {
+      "keys": "down up left up right up",
+      "shortName": "Dog Breath"
+    },
+    "LIFT-182 Warp Pack": {
+      "keys": "down left right down left right",
+      "shortName": "Warp Pack"
+    }
   },
   "Supply: Vehicles": {
-    "EXO-45 Patriot Exosuit": "left down right up left down down",
-    "EXO-49 Emancipator Exosuit": "left down right up left down up",
-    "M-102 Fast Recon Vehicle": "left down right down right down up",
-    "TD-220 Bastion MK XVI": "left down right down left down up down up",
-    "EXO-55 Breakthrough Exosuit": "left down right left right down up",
-    "EXO-51 Lumberer Exosuit": "left down right up right left up",
-    "M-103 Supply FRV": "left down left left down up right",
-    "M-104 Incinerator FRV": "left down right left down up up"
+    "EXO-45 Patriot Exosuit": {
+      "keys": "left down right up left down down",
+      "shortName": "Patriot Exosuit"
+    },
+    "EXO-49 Emancipator Exosuit": {
+      "keys": "left down right up left down up",
+      "shortName": "Emancipator Exosuit"
+    },
+    "M-102 Fast Recon Vehicle": {
+      "keys": "left down right down right down up",
+      "shortName": "Fast Recon Vehicle"
+    },
+    "TD-220 Bastion MK XVI": {
+      "keys": "left down right down left down up down up",
+      "shortName": "Bastion MK XVI"
+    },
+    "EXO-55 Breakthrough Exosuit": {
+      "keys": "left down right left right down up",
+      "shortName": "Breakthrough Exosuit"
+    },
+    "EXO-51 Lumberer Exosuit": {
+      "keys": "left down right up right left up",
+      "shortName": "Lumberer Exosuit"
+    },
+    "M-103 Supply FRV": {
+      "keys": "left down left left down up right",
+      "shortName": "Supply FRV"
+    },
+    "M-104 Incinerator FRV": {
+      "keys": "left down right left down up up",
+      "shortName": "Incinerator FRV"
+    }
   },
   "Mission": {
-    "Reinforce": "up down right left up",
-    "Resupply": "down down up right",
-    "SoS Beacon": "up down right up",
-    "Eagle Rearm": "up up left up right",
-    "Call In Super Destroyer": "up up down down left right left right",
-    "NUX-223 Hellbomb": "down up left down up right down up",
-    "Upload Data": "left right up up up",
-    "SSSD Delivery": "down down down down down up up",
-    "Super Earth Flag": "down up down up",
-    "Seismic Probe": "up up left right down down",
-    "Prospecting Drill": "down down left right down down",
-    "Dark Fluid Vessel": "up left right down up up",
-    "Tectonic Drill": "up down up down up down",
-    "Hive Breaker Drill": "left up down right down down",
-    "Cargo Container": "up up down down right down",
-    "SEAF Artillery": "right up up down",
-    "Reinforcement Pods": "left right up up up",
-    "Orbital Illumination Flare": "right right left left"
+    "Reinforce": {
+      "keys": "up down right left up",
+      "shortName": "Reinforce"
+    },
+    "Resupply": {
+      "keys": "down down up right",
+      "shortName": "Resupply"
+    },
+    "SoS Beacon": {
+      "keys": "up down right up",
+      "shortName": "SoS Beacon"
+    },
+    "Eagle Rearm": {
+      "keys": "up up left up right",
+      "shortName": "Eagle Rearm"
+    },
+    "Call In Super Destroyer": {
+      "keys": "up up down down left right left right",
+      "shortName": "Call In Super Destroyer"
+    },
+    "NUX-223 Hellbomb": {
+      "keys": "down up left down up right down up",
+      "shortName": "Hellbomb"
+    },
+    "Upload Data": {
+      "keys": "left right up up up",
+      "shortName": "Upload Data"
+    },
+    "SSSD Delivery": {
+      "keys": "down down down down down up up",
+      "shortName": "SSSD Delivery"
+    },
+    "Super Earth Flag": {
+      "keys": "down up down up",
+      "shortName": "Super Earth Flag"
+    },
+    "Seismic Probe": {
+      "keys": "up up left right down down",
+      "shortName": "Seismic Probe"
+    },
+    "Prospecting Drill": {
+      "keys": "down down left right down down",
+      "shortName": "Prospecting Drill"
+    },
+    "Dark Fluid Vessel": {
+      "keys": "up left right down up up",
+      "shortName": "Dark Fluid Vessel"
+    },
+    "Tectonic Drill": {
+      "keys": "up down up down up down",
+      "shortName": "Tectonic Drill"
+    },
+    "Hive Breaker Drill": {
+      "keys": "left up down right down down",
+      "shortName": "Hive Breaker Drill"
+    },
+    "Cargo Container": {
+      "keys": "up up down down right down",
+      "shortName": "Cargo Container"
+    },
+    "SEAF Artillery": {
+      "keys": "right up up down",
+      "shortName": "SEAF Artillery"
+    },
+    "Reinforcement Pods": {
+      "keys": "left right up up up",
+      "shortName": "Reinforcement Pods"
+    },
+    "Orbital Illumination Flare": {
+      "keys": "right right left left",
+      "shortName": "Orbital Illumination Flare"
+    }
   }
 }

@@ -72,7 +72,7 @@ public class GameViewModel : INotifyPropertyChanged
     public Task InitializeAsync()
     {
         _session.InitializeAsync();
-        Status = _session.IsConnected ? $"Connected to {_session.ServerName}" : "Not connected";
+        Status = _session.IsConnected ? "Connected" : "Not connected";
         return Task.CompletedTask;
     }
 
@@ -105,11 +105,11 @@ public class GameViewModel : INotifyPropertyChanged
 
     private async Task SendStratagem(Stratagem strat)
     {
-        Status = $"Sending: {strat.Name}";
+        Status = $"{strat.DisplayName}";
         await _sender.SendAsync(_session.ServerIp, _session.Pin, strat);
-        Status = $"Sent: {strat.Name}";
+        Status = "Sent";
         await Task.Delay(1000);
-        Status = $"Connected to {_session.ServerName}";
+        Status = "Connected";
     }
 
     public void UpdateConnectionStatus()

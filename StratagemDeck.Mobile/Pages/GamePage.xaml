@@ -99,7 +99,7 @@
                                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="1">
                                         <Image Source="{Binding IconSource}" WidthRequest="34" HeightRequest="34"
                                                Aspect="AspectFit" HorizontalOptions="Center" />
-                                        <Label Text="{Binding Name}" FontSize="9" TextColor="{StaticResource OnCanvasMute}"
+                                        <Label Text="{Binding DisplayName}" FontSize="9" TextColor="{StaticResource OnCanvasMute}"
                                                HorizontalOptions="Center" HorizontalTextAlignment="Center"
                                                LineBreakMode="TailTruncation" MaxLines="1" />
                                     </VerticalStackLayout>

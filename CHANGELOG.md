@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Released 1.2.2] 
+
+### Added
+
+- **Search bar** in Setup page to filter stratagems by name or short name
+- **Short names** for all stratagems (e.g. "GL-21 Grenade Launcher" → "Grenade Launcher"); extracted from weapon code prefix
+- **Icon disk cache**: SVG icons are decoded to PNG once and cached to `AppDataDirectory/icon_cache/` for faster subsequent loads
+- **Debounced loadout save**: `PreferencesService.SaveLoadout` accumulates rapid changes and flushes after 400ms of inactivity
+- `AutomationProperties.Name` on slots, buttons and category chips
+- `Focused` visual state on Button style for keyboard navigation
+- `try/catch` error handling in all page `OnAppearing`/`OnLoaded` handlers
+- Log messages in `UdpDiscoveryService` simplified for readability
+
+### Changed
+
+- `stratagems.json` restructured: each entry is now `{ "keys": "...", "shortName": "..." }` instead of a flat string
+- Icons use `ImageSource.FromFile(cachePath)` instead of `ImageSource.FromStream(() => ...)` to fix recycled cell glitch
+- All display labels changed from `{Binding Name}` to `{Binding DisplayName}` to show short names
+- Font size increased from 7 to 9 in stratagem grid items for readability
+- Status messages shortened across all ViewModels ("Searching for server..." → "Scanning...", etc.)
+
+### Fixed
+
+- `IconName` property removed (dead code with no-op `Replace("-", "-")`)
+- Unnecessary re-assignment `Slots[idx] = slot;` removed from `SetupViewModel.AssignToSlot`
+- Direct `Preferences.Default.Remove("saved_loadout")` replaced with `_session.SaveLoadout()`
+
 ## [Released 1.2.1] 
 
 ### Added

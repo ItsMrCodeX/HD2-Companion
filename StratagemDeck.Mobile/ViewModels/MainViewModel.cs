@@ -14,7 +14,7 @@ public class MainViewModel : INotifyPropertyChanged
     private readonly UdpDiscoveryService _discovery;
     private readonly StratagemSender _sender;
 
-    private string _status = "Searching for server...";
+    private string _status = "Scanning...";
     private string _serverIp = string.Empty;
     private string _serverName = string.Empty;
     private bool _isConnected;
@@ -129,18 +129,18 @@ public class MainViewModel : INotifyPropertyChanged
         if (savedIp != null && savedPin != null)
         {
             Pin = savedPin;
-            Status = $"Connecting to {savedIp}...";
+            Status = "Connecting...";
             var ok = await _discovery.PingServer(savedIp, savedPin);
             if (ok)
             {
                 _serverIp = savedIp;
                 ServerName = savedIp;
                 IsConnected = true;
-                Status = $"Connected to {savedIp}";
+                Status = "Connected";
             }
             else
             {
-                Status = "Searching for server...";
+                Status = "Scanning...";
                 StartScanning();
             }
         }
@@ -153,7 +153,7 @@ public class MainViewModel : INotifyPropertyChanged
     public void StartScanning()
     {
         IsScanning = true;
-        Status = "Searching for server...";
+        Status = "Scanning...";
         _discovery.StartScanning();
     }
 
@@ -161,7 +161,7 @@ public class MainViewModel : INotifyPropertyChanged
     {
         _discovery.StopScanning();
         IsScanning = false;
-        Status = $"Connecting to {server.PcName}...";
+        Status = "Connecting...";
 
         var ok = await _discovery.PingServer(server.IpAddress, server.Pin);
         if (ok)
@@ -170,13 +170,13 @@ public class MainViewModel : INotifyPropertyChanged
             _serverName = server.PcName;
             Pin = server.Pin;
             IsConnected = true;
-            Status = $"Connected to {server.PcName}";
+            Status = "Connected";
             _prefs.SaveServerIp(server.IpAddress);
             _prefs.SavePairedPin(server.Pin);
         }
         else
         {
-            Status = "Connection failed - retrying scan";
+            Status = "Failed, retrying...";
             StartScanning();
         }
     }
@@ -191,7 +191,7 @@ public class MainViewModel : INotifyPropertyChanged
             _serverName = ip;
             Pin = pin;
             IsConnected = true;
-            Status = $"Connected to {ip}";
+            Status = "Connected";
             _prefs.SaveServerIp(ip);
             _prefs.SavePairedPin(pin);
         }
@@ -214,7 +214,7 @@ public class MainViewModel : INotifyPropertyChanged
         {
             SelectedSlot = slot;
             Status = slot?.SelectedStratagem != null
-                ? $"Slot {idx + 1}: {slot.SelectedStratagem.Name} (tap stratagem to replace)"
+                ? $"Slot {idx + 1}: {slot.SelectedStratagem.DisplayName} (tap stratagem to replace)"
                 : $"Slot {idx + 1} selected - choose a stratagem";
         }
     }
@@ -240,14 +240,14 @@ public class MainViewModel : INotifyPropertyChanged
         slot.SelectedStratagem = stratagem;
 
         SaveLoadout();
-        Status = $"Assigned {stratagem.Name} to Slot {SelectedSlot.SlotIndex + 1}";
+        Status = $"Assigned {stratagem.DisplayName} to Slot {SelectedSlot.SlotIndex + 1}";
         SelectedSlot = null;
             return;
         }
 
         if (!IsConnected || string.IsNullOrEmpty(_serverIp))
         {
-            Status = "Not connected to server";
+            Status = "Not connected";
             return;
         }
 
@@ -256,12 +256,12 @@ public class MainViewModel : INotifyPropertyChanged
 
         try
         {
-            Status = $"Sending: {stratagem.Name}";
+            Status = $"Sending: {stratagem.DisplayName}";
             await _sender.SendAsync(_serverIp, Pin, stratagem);
-            Status = $"Sent: {stratagem.Name}";
+            Status = "Sent";
 
             await Task.Delay(1200);
-            Status = IsConnected ? $"Connected to {_serverName}" : "Ready";
+            Status = IsConnected ? "Connected" : "Ready";
         }
         finally
         {

@@ -15,6 +15,7 @@ public partial class MainPage : ContentPage
 
     private async void OnLoaded(object? sender, EventArgs e)
     {
-        await _vm.InitializeAsync();
+        try { await _vm.InitializeAsync(); }
+        catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
     }
 }

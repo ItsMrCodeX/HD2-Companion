@@ -7,22 +7,49 @@ public class PreferencesService
 {
     private const string LoadoutKey = "saved_loadout";
 
+    private readonly object _lock = new();
+    private List<LoadoutSlot>? _pendingSlots;
+    private CancellationTokenSource? _debounceCts;
+
     public void SaveLoadout(List<LoadoutSlot> slots)
     {
-        var data = new LoadoutConfig
-        {
-            Slots = slots.Select(s => new LoadoutSlotData
-            {
-                SlotIndex = s.SlotIndex,
-                StratagemName = s.SelectedStratagem?.Name,
-                Category = s.SelectedStratagem?.Category,
-                MissionStratagemNames = s.MissionStrats.Select(m => m.Name).ToList(),
-                MissionStratagemCategories = s.MissionStrats.Select(m => m.Category).ToList()
-            }).ToList()
-        };
+        lock (_lock) { _pendingSlots = slots; }
 
-        var json = JsonSerializer.Serialize(data);
-        Preferences.Default.Set(LoadoutKey, json);
+        _debounceCts?.Cancel();
+        _debounceCts = new CancellationTokenSource();
+        var token = _debounceCts.Token;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(400, token);
+                if (token.IsCancellationRequested) return;
+
+                List<LoadoutSlot> toSave;
+                lock (_lock)
+                {
+                    toSave = _pendingSlots!;
+                    _pendingSlots = null;
+                }
+
+                var data = new LoadoutConfig
+                {
+                    Slots = toSave.Select(s => new LoadoutSlotData
+                    {
+                        SlotIndex = s.SlotIndex,
+                        StratagemName = s.SelectedStratagem?.Name,
+                        Category = s.SelectedStratagem?.Category,
+                        MissionStratagemNames = s.MissionStrats.Select(m => m.Name).ToList(),
+                        MissionStratagemCategories = s.MissionStrats.Select(m => m.Category).ToList()
+                    }).ToList()
+                };
+
+                var json = JsonSerializer.Serialize(data);
+                Preferences.Default.Set(LoadoutKey, json);
+            }
+            catch (TaskCanceledException) { }
+        }, token);
     }
 
     public List<LoadoutSlot> LoadLoadout(IEnumerable<Stratagem> allStrats)
