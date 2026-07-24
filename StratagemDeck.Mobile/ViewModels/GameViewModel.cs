@@ -69,11 +69,10 @@ public class GameViewModel : INotifyPropertyChanged
         };
     }
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        _session.InitializeAsync();
+        await _session.InitializeAsync();
         Status = _session.IsConnected ? "Connected" : "Not connected";
-        return Task.CompletedTask;
     }
 
     private async Task OnTapSlot(string? indexStr)

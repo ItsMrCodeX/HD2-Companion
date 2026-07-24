@@ -57,6 +57,8 @@ public class SessionService
             var ok = await _discovery.PingServer(savedIp, savedPin);
             IsConnected = ok;
             ServerName = ok ? savedIp : string.Empty;
+            if (ok)
+                _discovery.StopScanning();
         }
 
         IsDataLoaded = true;
@@ -74,6 +76,7 @@ public class SessionService
         var ok = await _discovery.PingServer(ip, pin);
         if (ok)
         {
+            _discovery.StopScanning();
             ServerIp = ip;
             Pin = pin;
             ServerName = ip;

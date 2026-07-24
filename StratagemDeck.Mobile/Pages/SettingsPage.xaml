@@ -131,14 +131,15 @@
                         Command="{Binding ConnectManualCommand}" />
             </VerticalStackLayout>
 
-            <Button Text="Rescan"
+            <Button Text="Look for servers"
                     FontSize="14"
                     BackgroundColor="{StaticResource Surface}"
                     TextColor="{StaticResource OnCanvas}"
                     CornerRadius="999"
                     HeightRequest="44"
                     Command="{Binding StartScanCommand}"
-                    IsVisible="{Binding IsScanning, Converter={StaticResource InverseBool}}" />
+                    IsVisible="{Binding IsScanning, Converter={StaticResource InverseBool}}"
+                    AutomationProperties.Name="Look for servers" />
 
         </VerticalStackLayout>
     </ScrollView>

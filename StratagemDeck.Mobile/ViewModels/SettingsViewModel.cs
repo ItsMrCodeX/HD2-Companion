@@ -68,7 +68,11 @@ public class SettingsViewModel : INotifyPropertyChanged
         _discovery = discovery;
 
         _discovery.OnServerDiscovered += OnServerDiscovered;
-        _discovery.OnLog += msg => MainThread.BeginInvokeOnMainThread(() => Status = msg);
+        _discovery.OnLog += msg => MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (IsScanning || !_session.IsConnected)
+                Status = msg;
+        });
 
         ConnectToServerCommand = new Command<DiscoveryInfo>(async (d) => await ConnectToServer(d));
         ConnectManualCommand = new Command(async () => await ConnectManual());
@@ -78,32 +82,40 @@ public class SettingsViewModel : INotifyPropertyChanged
             ShowManualEntry = !ShowManualEntry;
             if (ShowManualEntry)
             {
-                _discovery.StopScanning();
-                IsScanning = false;
+                StopScan();
             }
         });
         OpenQrScannerCommand = new Command(async () => await OpenQrScanner());
     }
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        StartScan();
-        return Task.CompletedTask;
+        await _session.InitializeAsync();
+
+        if (_session.IsConnected)
+        {
+            StopScan();
+            Status = "Connected";
+        }
+        else
+        {
+            StartScan();
+        }
+
     }
 
     public void StartScan()
     {
         IsScanning = true;
         ShowManualEntry = false;
-        Status = "Scanning...";
+        Status = "Looking for servers...";
         DiscoveredServers.Clear();
         _discovery.StartScanning();
     }
 
     private async Task ConnectToServer(DiscoveryInfo server)
     {
-        _discovery.StopScanning();
-        IsScanning = false;
+        StopScan();
         Status = "Connecting...";
 
         var ok = await _session.ConnectAsync(server.IpAddress, server.Pin);
@@ -117,6 +129,7 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     private async Task OpenQrScanner()
     {
+        StopScan();
         await Shell.Current.GoToAsync("qrscan");
     }
 
@@ -125,6 +138,7 @@ public class SettingsViewModel : INotifyPropertyChanged
         if (Shell.Current.CurrentPage is Pages.QrScanPage)
             await Shell.Current.GoToAsync("..");
 
+        StopScan();
         Status = "Connecting...";
         var ok = await _session.ConnectAsync(ip, pin);
         Status = ok ? "Connected" : "Failed";
@@ -142,6 +156,7 @@ public class SettingsViewModel : INotifyPropertyChanged
             return;
         }
 
+        StopScan();
         Status = "Connecting...";
         var ok = await _session.ConnectAsync(ManualIp, PinEntry);
         Status = ok
@@ -154,8 +169,12 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     private void OnServerDiscovered(DiscoveryInfo info)
     {
+        if (!IsScanning) return;
+
         MainThread.BeginInvokeOnMainThread(() =>
         {
+            if (!IsScanning) return;
+
             var existing = DiscoveredServers.FirstOrDefault(s => s.IpAddress == info.IpAddress);
             if (existing != null)
             {
@@ -167,6 +186,12 @@ public class SettingsViewModel : INotifyPropertyChanged
                 DiscoveredServers.Add(info);
             }
         });
+    }
+
+    private void StopScan()
+    {
+        _discovery.StopScanning();
+        IsScanning = false;
     }
 
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
