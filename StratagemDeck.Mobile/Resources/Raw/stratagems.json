@@ -127,6 +127,10 @@
     "CQC-1 One True Flag": {
       "keys": "down left right right up",
       "shortName": "One True Flag"
+    },
+    "40-K Meltagun": {
+      "keys": "down left up left left down",
+      "shortName": "Meltagun"
     }
   },
   "Offensive: Orbital": {
@@ -346,9 +350,9 @@
       "keys": "left down right up left down up",
       "shortName": "Emancipator Exosuit"
     },
-    "M-102 Fast Recon Vehicle": {
+    "M-102 Gunner FRV": {
       "keys": "left down right down right down up",
-      "shortName": "Fast Recon Vehicle"
+      "shortName": "Gunner FRV"
     },
     "TD-220 Bastion MK XVI": {
       "keys": "left down right down left down up down up",
@@ -439,6 +443,14 @@
     "Reinforcement Pods": {
       "keys": "left right up up up",
       "shortName": "Reinforcement Pods"
+    },
+    "Tactical Video Camera": {
+      "keys": "right down down up left left up",
+      "shortName": "Tactical Video Camera"
+    },
+    "Aquifer Drill": {
+      "keys": "left left left up down right down down",
+      "shortName": "Aquifer Drill"
     },
     "Orbital Illumination Flare": {
       "keys": "right right left left",
